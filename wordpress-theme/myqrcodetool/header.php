@@ -15,6 +15,7 @@
     <!-- Preload Critical Resources for LCP Optimization -->
     <link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/css/main.css" as="style" />
     <link rel="modulepreload" href="<?php echo get_template_directory_uri(); ?>/assets/js/vendor-CMjGaeKf.js" />
+    <link rel="modulepreload" href="<?php echo get_template_directory_uri(); ?>/assets/js/index-B65U0c70.js" />
     
     <!-- Critical CSS for above-the-fold content -->
     <style>

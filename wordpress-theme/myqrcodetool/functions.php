@@ -182,11 +182,22 @@ function myqrcodetool_structured_data() {
     $site_name = get_bloginfo('name');
     $site_url = home_url('/');
     
+    $description = get_bloginfo('description');
+    if (is_singular() && $post) {
+        $page_slug = $post->post_name;
+        $seo_data = myqrcodetool_get_page_seo($page_slug);
+        if ($seo_data && !empty($seo_data['description'])) {
+            $description = wp_strip_all_tags($seo_data['description']);
+        } elseif (has_excerpt()) {
+            $description = wp_strip_all_tags(get_the_excerpt());
+        }
+    }
+    
     $schema = array(
         '@context' => 'https://schema.org',
         '@type' => 'WebApplication',
         'name' => get_the_title() ?: $site_name,
-        'description' => get_the_excerpt() ?: get_bloginfo('description'),
+        'description' => $description,
         'url' => get_permalink() ?: $site_url,
         'applicationCategory' => 'UtilityApplication',
         'operatingSystem' => 'Web Browser',
@@ -236,9 +247,19 @@ function myqrcodetool_seo_meta() {
     global $post;
     
     $site_name = get_bloginfo('name');
-    $description = get_the_excerpt() ?: get_bloginfo('description');
     $url = is_singular() ? get_permalink() : home_url('/');
     $title = is_singular() ? get_the_title() : $site_name;
+    
+    $description = get_bloginfo('description');
+    if (is_singular() && $post) {
+        $page_slug = $post->post_name;
+        $seo_data = myqrcodetool_get_page_seo($page_slug);
+        if ($seo_data && !empty($seo_data['description'])) {
+            $description = wp_strip_all_tags($seo_data['description']);
+        } elseif (has_excerpt()) {
+            $description = wp_strip_all_tags(get_the_excerpt());
+        }
+    }
     $og_image = MYQRCODETOOL_URI . '/assets/images/og-image.png';
     
     if (has_post_thumbnail()) {
@@ -656,3 +677,127 @@ function myqrcodetool_admin_notice() {
     }
 }
 add_action('admin_notices', 'myqrcodetool_admin_notice');
+
+/**
+ * Get random QR generator pages for footer (excludes current page)
+ */
+function myqrcodetool_get_random_qr_pages($count = 4) {
+    $all_qr_pages = array(
+        'url-to-qr' => 'URL to QR Code',
+        'text-to-qr' => 'Text to QR Code',
+        'wifi-to-qr' => 'WiFi QR Code',
+        'whatsapp-to-qr' => 'WhatsApp QR Code',
+        'email-to-qr' => 'Email QR Code',
+        'phone-to-qr' => 'Phone QR Code',
+        'sms-to-qr' => 'SMS QR Code',
+        'contact-to-qr' => 'Contact QR Code',
+        'v-card-to-qr' => 'vCard QR Code',
+        'event-to-qr' => 'Event QR Code',
+        'image-to-qr' => 'Image QR Code',
+        'paypal-to-qr' => 'PayPal QR Code',
+        'zoom-to-qr' => 'Zoom QR Code',
+        'scanner' => 'QR Code Scanner',
+    );
+    
+    global $post;
+    $current_slug = $post ? $post->post_name : '';
+    
+    if (isset($all_qr_pages[$current_slug])) {
+        unset($all_qr_pages[$current_slug]);
+    }
+    
+    $keys = array_keys($all_qr_pages);
+    shuffle($keys);
+    $random_keys = array_slice($keys, 0, $count);
+    
+    $result = array();
+    foreach ($random_keys as $key) {
+        $result[$key] = $all_qr_pages[$key];
+    }
+    
+    return $result;
+}
+
+/**
+ * Get FAQ data for a specific page from seo-data.php
+ */
+function myqrcodetool_get_page_faqs($page_slug) {
+    $all_pages = myqrcodetool_get_all_qr_pages();
+    
+    if (isset($all_pages[$page_slug]) && isset($all_pages[$page_slug]['faqs'])) {
+        return $all_pages[$page_slug]['faqs'];
+    }
+    
+    return array();
+}
+
+/**
+ * Get benefits for a specific page from seo-data.php
+ */
+function myqrcodetool_get_page_benefits($page_slug) {
+    $all_pages = myqrcodetool_get_all_qr_pages();
+    
+    if (isset($all_pages[$page_slug]) && isset($all_pages[$page_slug]['benefits'])) {
+        return $all_pages[$page_slug]['benefits'];
+    }
+    
+    return array();
+}
+
+/**
+ * Get use cases for a specific page from seo-data.php
+ */
+function myqrcodetool_get_page_use_cases($page_slug) {
+    $all_pages = myqrcodetool_get_all_qr_pages();
+    
+    if (isset($all_pages[$page_slug]) && isset($all_pages[$page_slug]['use_cases'])) {
+        return $all_pages[$page_slug]['use_cases'];
+    }
+    
+    return '';
+}
+
+/**
+ * Extended Customizer Settings for Footer Content
+ */
+function myqrcodetool_extended_customizer($wp_customize) {
+    $wp_customize->add_setting('footer_benefits_text', array(
+        'default' => "Generate professional QR codes in seconds - no design skills needed\nCustomize colors, add logos, and choose from multiple frame styles\nSupport for 15+ QR code types: URLs, emails, WiFi, vCard, and more\nHigh-quality export options - PNG, SVG, PDF with custom sizes\nTrack QR code scans and analytics with URL shorteners\nCompletely free - no registration or watermarks required",
+        'sanitize_callback' => 'sanitize_textarea_field',
+        'transport' => 'refresh',
+    ));
+    
+    $wp_customize->add_control('footer_benefits_text', array(
+        'label' => __('Footer Benefits (one per line)', 'myqrcodetool'),
+        'section' => 'myqrcodetool_settings',
+        'type' => 'textarea',
+        'description' => __('Enter each benefit on a new line', 'myqrcodetool'),
+    ));
+    
+    $wp_customize->add_setting('show_random_qr_links', array(
+        'default' => true,
+        'sanitize_callback' => 'wp_validate_boolean',
+    ));
+    
+    $wp_customize->add_control('show_random_qr_links', array(
+        'label' => __('Show Random QR Links in Footer', 'myqrcodetool'),
+        'section' => 'myqrcodetool_settings',
+        'type' => 'checkbox',
+    ));
+    
+    $wp_customize->add_setting('random_qr_links_count', array(
+        'default' => 4,
+        'sanitize_callback' => 'absint',
+    ));
+    
+    $wp_customize->add_control('random_qr_links_count', array(
+        'label' => __('Number of Random QR Links to Show', 'myqrcodetool'),
+        'section' => 'myqrcodetool_settings',
+        'type' => 'number',
+        'input_attrs' => array(
+            'min' => 2,
+            'max' => 8,
+        ),
+    ));
+}
+add_action('customize_register', 'myqrcodetool_extended_customizer', 20);

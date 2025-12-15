@@ -137,3 +137,33 @@ function add_action() {}
 function add_filter() {}
 function do_action() {}
 function apply_filters($tag, $value) { return $value; }
+
+function myqrcodetool_get_random_qr_pages($count = 4) {
+    $all_qr_pages = array(
+        'url-to-qr' => 'URL to QR Code',
+        'text-to-qr' => 'Text to QR Code',
+        'wifi-to-qr' => 'WiFi QR Code',
+        'whatsapp-to-qr' => 'WhatsApp QR Code',
+        'email-to-qr' => 'Email QR Code',
+        'phone-to-qr' => 'Phone QR Code',
+        'sms-to-qr' => 'SMS QR Code',
+        'contact-to-qr' => 'Contact QR Code',
+        'v-card-to-qr' => 'vCard QR Code',
+        'event-to-qr' => 'Event QR Code',
+        'image-to-qr' => 'Image QR Code',
+        'paypal-to-qr' => 'PayPal QR Code',
+        'zoom-to-qr' => 'Zoom QR Code',
+        'scanner' => 'QR Code Scanner',
+    );
+    
+    $keys = array_keys($all_qr_pages);
+    shuffle($keys);
+    $random_keys = array_slice($keys, 0, $count);
+    
+    $result = array();
+    foreach ($random_keys as $key) {
+        $result[$key] = $all_qr_pages[$key];
+    }
+    
+    return $result;
+}
