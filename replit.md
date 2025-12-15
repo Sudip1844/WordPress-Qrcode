@@ -6,17 +6,15 @@ This project converts a static React-based QR Code Generator website into a Word
 
 ## Current Setup
 
-The project now runs a **live WordPress preview** with the theme activated. You can see exactly how your theme will look when installed on a WordPress site.
+The project runs a **PHP-based preview** that renders the WordPress theme templates directly in Replit's internal browser - no full WordPress installation required.
 
 ## Project Structure
 
 ```
-├── wordpress-preview/                     # Live WordPress installation (SQLite)
-│   ├── wp-content/
-│   │   ├── themes/myqrcodetool/          # Your WordPress theme (active)
-│   │   └── plugins/sqlite-database-integration/
-│   ├── wp-config.php                      # WordPress configuration
-│   └── router.php                         # PHP built-in server router
+├── preview/                               # PHP preview server
+│   ├── index.php                          # Entry point
+│   ├── wp-stubs.php                       # WordPress function stubs
+│   └── theme/                             # Symlink to theme folder
 ├── wordpress-theme/
 │   ├── myqrcodetool/                      # WordPress theme source
 │   │   ├── style.css                      # Theme info and styles
@@ -33,14 +31,8 @@ The project now runs a **live WordPress preview** with the theme activated. You 
 │   └── WORDPRESS-INTEGRATION-GUIDE.md     # Detailed documentation
 ├── extracted_site/                        # Original static site files
 ├── myqrcodetool-wordpress-theme.zip       # Ready-to-install WordPress theme
-└── server.js                              # Legacy Node.js server (not used)
+└── server.js                              # Legacy Node.js server (backup)
 ```
-
-## WordPress Admin Access
-
-- URL: /wp-admin/
-- Username: admin
-- Password: admin123
 
 ## Features Implemented
 
@@ -50,14 +42,13 @@ The project now runs a **live WordPress preview** with the theme activated. You 
 4. **Google Tag Manager**: Integrated with customizer settings
 5. **JavaScript Preservation**: All original React functionality preserved
 6. **Tailwind CSS**: Complete styling included
-7. **SQLite Database**: No MySQL required for preview
 
 ## How to Use
 
 ### Preview (Current Setup)
-- The WordPress preview is running with your theme active
-- Visit the site to see how it looks
-- Access /wp-admin/ to customize settings
+- The PHP preview is running with your theme active
+- Visit the webview to see how your theme looks
+- Edit files in wordpress-theme/myqrcodetool/ to make changes
 
 ### Download for Production
 - Download `myqrcodetool-wordpress-theme.zip`
@@ -66,10 +57,10 @@ The project now runs a **live WordPress preview** with the theme activated. You 
 
 ## Recent Changes
 
-- **2024-12-15**: WordPress live preview setup
-  - Installed WordPress with SQLite database
-  - Activated myqrcodetool theme
-  - Configured PHP server for preview
+- **2024-12-15**: PHP-based preview setup
+  - Created lightweight PHP preview with WordPress stubs
+  - Theme renders correctly in Replit internal browser
+  - No full WordPress installation required
   
 - **2024-12-12**: Initial WordPress theme conversion complete
   - Created all PHP template files
