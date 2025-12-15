@@ -57,6 +57,15 @@ The project runs a **PHP-based preview** that renders the WordPress theme templa
 
 ## Recent Changes
 
+- **2025-12-15**: Footer Cleanup & Dynamic QR Links Update
+  - **FOOTER CLEANUP**:
+    - Removed "Benefits" and "Use Cases" sections from footer
+    - Renamed "Explore More QR Code Generators" to "Popular QR Code Types"
+  - **DYNAMIC QR LINKS**:
+    - Now shows only 13 QR generator pages (scanner removed from rotation)
+    - Links dynamically randomize on each page load
+    - Footer is cleaner with just QR links section + credits
+
 - **2024-12-15**: Comprehensive Performance, SEO & Footer Update
   - **PERFORMANCE FIX**: 
     - Removed duplicate vendor.js (862KB savings)
