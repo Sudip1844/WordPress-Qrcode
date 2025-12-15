@@ -16,19 +16,19 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "WordPress Theme Server"
+args = "WordPress Theme Preview"
 
 [[workflows.workflow]]
-name = "WordPress Theme Server"
+name = "WordPress Theme Preview"
 author = "agent"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "node server.js"
-waitForPort = 5000
 
 [workflows.workflow.metadata]
 outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "php -S 0.0.0.0:5000 -t wordpress-preview wordpress-preview/router.php"
+waitForPort = 5000
 
 [[ports]]
 localPort = 5000
