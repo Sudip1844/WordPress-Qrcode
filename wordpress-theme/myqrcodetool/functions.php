@@ -696,7 +696,6 @@ function myqrcodetool_get_random_qr_pages($count = 4) {
         'image-to-qr' => 'Image QR Code',
         'paypal-to-qr' => 'PayPal QR Code',
         'zoom-to-qr' => 'Zoom QR Code',
-        'scanner' => 'QR Code Scanner',
     );
     
     global $post;
