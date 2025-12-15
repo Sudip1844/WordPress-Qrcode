@@ -57,6 +57,15 @@ The project runs a **PHP-based preview** that renders the WordPress theme templa
 
 ## Recent Changes
 
+- **2024-12-15**: Performance & SEO Major Update
+  - **PERFORMANCE FIX**: Removed duplicate vendor.js (862KB) - was loading same file twice causing slow LCP
+  - Added preload hints for critical CSS and JS resources
+  - Updated wp-stubs.php to use correct vendor-CMjGaeKf.js file
+  - **SEO FIX**: Made contact-to-qr and v-card-to-qr pages have unique titles/descriptions
+    - contact-to-qr: "Simple Contact QR Code Maker - Quick MeCard Generator Free"
+    - v-card-to-qr: "Professional vCard QR Code Generator - Complete Digital Business Card"
+  - Theme ZIP reduced from ~1MB to 389KB
+
 - **2024-12-15**: Multi-page SEO & JS Optimization
   - Auto-creates 18 QR pages on theme activation
   - Each page has unique SEO meta (description, keywords, canonical)
