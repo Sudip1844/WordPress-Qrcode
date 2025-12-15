@@ -57,6 +57,13 @@ The project runs a **PHP-based preview** that renders the WordPress theme templa
 
 ## Recent Changes
 
+- **2024-12-15**: Multi-page SEO & JS Optimization
+  - Auto-creates 18 QR pages on theme activation
+  - Each page has unique SEO meta (description, keywords, canonical)
+  - Conditional JS loading - only loads page-specific scripts
+  - Added defer attribute for faster page loads
+  - Removed unwanted code (Favicon, GTM, PWA meta)
+
 - **2024-12-15**: PHP-based preview setup
   - Created lightweight PHP preview with WordPress stubs
   - Theme renders correctly in Replit internal browser
