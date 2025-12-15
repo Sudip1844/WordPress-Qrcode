@@ -358,14 +358,14 @@ function myqrcodetool_get_page_seo($page_slug) {
             'keywords' => 'sms qr code, text message qr, sms generator'
         ),
         'contact-to-qr' => array(
-            'title' => 'Contact QR Code Generator - Share Your Details',
-            'description' => 'Generate QR codes with complete contact information. Easy sharing for business networking.',
-            'keywords' => 'contact qr code, mecard generator, contact sharing'
+            'title' => 'Simple Contact QR Code Maker - Quick MeCard Generator Free',
+            'description' => 'Create simple contact QR codes instantly with MeCard format. Share basic name, phone & email info with one scan. Fast, free, no signup required.',
+            'keywords' => 'contact qr code, mecard generator, mecard qr code, simple contact sharing'
         ),
         'v-card-to-qr' => array(
-            'title' => 'vCard QR Code Generator - Digital Business Card',
-            'description' => 'Create professional vCard QR codes with all your contact details for easy networking.',
-            'keywords' => 'vcard qr code, business card qr, digital card'
+            'title' => 'Professional vCard QR Code Generator - Complete Digital Business Card',
+            'description' => 'Create full-featured vCard QR codes with job title, company, address, website & social links. Premium digital business card for executives.',
+            'keywords' => 'vcard qr code, vcf qr generator, digital business card, professional contact qr'
         ),
         'event-to-qr' => array(
             'title' => 'Event QR Code Generator - Calendar Integration',
@@ -498,17 +498,17 @@ function myqrcodetool_create_pages_on_activation() {
         ),
         array(
             'slug' => 'contact-to-qr',
-            'title' => 'Contact QR Code Generator',
+            'title' => 'Simple Contact QR Code Maker - Quick MeCard Generator',
             'template' => 'page-templates/template-qr-generator.php',
-            'meta_description' => 'Generate QR codes with complete contact information. Easy sharing for business networking.',
-            'meta_keywords' => 'contact qr code, mecard generator, contact sharing'
+            'meta_description' => 'Create simple contact QR codes instantly with MeCard format. Share basic name, phone & email info with one scan.',
+            'meta_keywords' => 'contact qr code, mecard generator, mecard qr code, simple contact sharing'
         ),
         array(
             'slug' => 'v-card-to-qr',
-            'title' => 'vCard QR Code Generator',
+            'title' => 'Professional vCard QR Code Generator - Digital Business Card',
             'template' => 'page-templates/template-qr-generator.php',
-            'meta_description' => 'Create professional vCard QR codes with all your contact details for easy networking.',
-            'meta_keywords' => 'vcard qr code, business card qr, digital card'
+            'meta_description' => 'Create full-featured vCard QR codes with job title, company, address, website & social links. Premium digital business card.',
+            'meta_keywords' => 'vcard qr code, vcf qr generator, digital business card, professional contact qr'
         ),
         array(
             'slug' => 'event-to-qr',

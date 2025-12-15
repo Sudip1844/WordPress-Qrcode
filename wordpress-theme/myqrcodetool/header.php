@@ -12,6 +12,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     
+    <!-- Preload Critical Resources for LCP Optimization -->
+    <link rel="preload" href="<?php echo get_template_directory_uri(); ?>/assets/css/main.css" as="style" />
+    <link rel="modulepreload" href="<?php echo get_template_directory_uri(); ?>/assets/js/vendor-CMjGaeKf.js" />
+    
     <!-- Critical CSS for above-the-fold content -->
     <style>
         body { margin: 0; font-family: system-ui, -apple-system, sans-serif; }

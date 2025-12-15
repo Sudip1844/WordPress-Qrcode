@@ -76,8 +76,8 @@ function wp_head() {
 }
 
 function wp_footer() {
-    echo '<script type="module" src="' . THEME_URI . '/assets/js/vendor.js"></script>' . "\n";
-    echo '<script type="module" src="' . THEME_URI . '/assets/js/app.js"></script>' . "\n";
+    echo '<script type="module" defer src="' . THEME_URI . '/assets/js/vendor-CMjGaeKf.js"></script>' . "\n";
+    echo '<script type="module" defer src="' . THEME_URI . '/assets/js/index-B65U0c70.js"></script>' . "\n";
 }
 
 function wp_body_open() {

@@ -118,28 +118,28 @@ function myqrcodetool_get_all_qr_pages() {
             'use_cases' => 'Ideal for SMS marketing, voting systems, feedback collection, appointment reminders, and customer engagement.'
         ),
         'contact-to-qr' => array(
-            'title' => 'Contact QR Code Generator - Share Your Details',
-            'description' => 'Generate QR codes with complete contact information. Easy sharing for business networking.',
-            'keywords' => 'contact qr code, mecard generator, contact sharing qr',
+            'title' => 'Simple Contact QR Code Maker - Quick MeCard Generator Free',
+            'description' => 'Create simple contact QR codes instantly with MeCard format. Share basic name, phone & email info with one scan. Fast, free, no signup required.',
+            'keywords' => 'contact qr code, mecard generator, mecard qr code, simple contact sharing, quick contact qr, basic contact card qr',
             'benefits' => array(
-                'Share contact details instantly',
-                'Save contacts directly to phone address book',
-                'Include name, phone, email, and more',
-                'Perfect for networking events'
+                'Create quick MeCard format contact codes in seconds',
+                'Share basic contact details: name, phone, email',
+                'Recipients save your info to phone instantly',
+                'Lightweight QR codes that scan faster'
             ),
-            'use_cases' => 'Great for business networking, conferences, trade shows, job fairs, and personal introductions.'
+            'use_cases' => 'Perfect for quick personal introductions, casual networking, event attendees, students, and anyone needing fast contact sharing.'
         ),
         'v-card-to-qr' => array(
-            'title' => 'vCard QR Code Generator - Digital Business Card',
-            'description' => 'Create professional vCard QR codes with all your contact details for easy networking.',
-            'keywords' => 'vcard qr code, business card qr, digital business card, vcf qr',
+            'title' => 'Professional vCard QR Code Generator - Complete Digital Business Card',
+            'description' => 'Create full-featured vCard QR codes with job title, company, address, website & social links. Premium digital business card for executives & professionals.',
+            'keywords' => 'vcard qr code, vcf qr generator, digital business card, professional contact qr, executive business card qr, complete vcard maker',
             'benefits' => array(
-                'Create comprehensive digital business cards',
-                'Include name, title, company, phone, email, address, website',
-                'Save directly to contacts on any smartphone',
-                'More professional than basic contact QR codes'
+                'Include complete professional details: title, company, department',
+                'Add full address, multiple phone numbers, website URLs',
+                'Include social media profiles and company logo',
+                'Industry-standard vCard 3.0 format for maximum compatibility'
             ),
-            'use_cases' => 'Perfect for professionals, executives, sales teams, real estate agents, and anyone who networks regularly.'
+            'use_cases' => 'Essential for executives, sales professionals, real estate agents, consultants, and corporate networking events.'
         ),
         'event-to-qr' => array(
             'title' => 'Event QR Code Generator - Calendar Integration',
