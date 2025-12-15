@@ -361,3 +361,218 @@ function myqrcodetool_faq_schema($faqs, $page_title, $page_url) {
     
     echo '<script type="application/ld+json">' . wp_json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . '</script>' . "\n";
 }
+
+/**
+ * Auto-create QR pages on theme activation
+ */
+function myqrcodetool_create_pages_on_activation() {
+    $pages_to_create = array(
+        array(
+            'slug' => 'url-to-qr',
+            'title' => 'URL to QR Code Generator',
+            'template' => 'page-templates/template-qr-generator.php',
+            'meta_description' => 'Convert any URL or link into a scannable QR code instantly. Just paste your link and share QR codes easily for websites, social media, promotions, and more.',
+            'meta_keywords' => 'url to qr code, link qr generator, free qr code, qr code generator free'
+        ),
+        array(
+            'slug' => 'text-to-qr',
+            'title' => 'Text to QR Code Generator',
+            'template' => 'page-templates/template-qr-generator.php',
+            'meta_description' => 'Easily convert plain text into QR codes. Perfect for sharing notes, messages, codes, or instructions via scannable QR codes.',
+            'meta_keywords' => 'text to qr code, text qr generator, message qr code'
+        ),
+        array(
+            'slug' => 'wifi-to-qr',
+            'title' => 'WiFi QR Code Generator',
+            'template' => 'page-templates/template-qr-generator.php',
+            'meta_description' => 'Create QR codes for WiFi network access. Let guests connect instantly without typing passwords.',
+            'meta_keywords' => 'wifi qr code, wifi qr generator, share wifi'
+        ),
+        array(
+            'slug' => 'whatsapp-to-qr',
+            'title' => 'WhatsApp QR Code Generator',
+            'template' => 'page-templates/template-qr-generator.php',
+            'meta_description' => 'Generate QR codes that open WhatsApp conversations directly. Perfect for business and customer support.',
+            'meta_keywords' => 'whatsapp qr code, whatsapp link generator'
+        ),
+        array(
+            'slug' => 'email-to-qr',
+            'title' => 'Email QR Code Generator',
+            'template' => 'page-templates/template-qr-generator.php',
+            'meta_description' => 'Create QR codes that compose emails instantly. Perfect for business cards and contact sharing.',
+            'meta_keywords' => 'email qr code, email link generator, contact qr'
+        ),
+        array(
+            'slug' => 'phone-to-qr',
+            'title' => 'Phone Number QR Code Generator',
+            'template' => 'page-templates/template-qr-generator.php',
+            'meta_description' => 'Generate QR codes for phone numbers. Let customers call you with a single scan.',
+            'meta_keywords' => 'phone qr code, call qr generator, tel qr'
+        ),
+        array(
+            'slug' => 'sms-to-qr',
+            'title' => 'SMS QR Code Generator',
+            'template' => 'page-templates/template-qr-generator.php',
+            'meta_description' => 'Create QR codes that open SMS with pre-filled messages. Perfect for marketing and support.',
+            'meta_keywords' => 'sms qr code, text message qr, sms generator'
+        ),
+        array(
+            'slug' => 'contact-to-qr',
+            'title' => 'Contact QR Code Generator',
+            'template' => 'page-templates/template-qr-generator.php',
+            'meta_description' => 'Generate QR codes with complete contact information. Easy sharing for business networking.',
+            'meta_keywords' => 'contact qr code, mecard generator, contact sharing'
+        ),
+        array(
+            'slug' => 'v-card-to-qr',
+            'title' => 'vCard QR Code Generator',
+            'template' => 'page-templates/template-qr-generator.php',
+            'meta_description' => 'Create professional vCard QR codes with all your contact details for easy networking.',
+            'meta_keywords' => 'vcard qr code, business card qr, digital card'
+        ),
+        array(
+            'slug' => 'event-to-qr',
+            'title' => 'Event QR Code Generator',
+            'template' => 'page-templates/template-qr-generator.php',
+            'meta_description' => 'Generate QR codes for events that add directly to calendars. Perfect for invitations and scheduling.',
+            'meta_keywords' => 'event qr code, calendar qr, ics qr generator'
+        ),
+        array(
+            'slug' => 'image-to-qr',
+            'title' => 'Image to QR Code Generator',
+            'template' => 'page-templates/template-qr-generator.php',
+            'meta_description' => 'Create QR codes that link to images. Share photos, artwork, and visual content easily.',
+            'meta_keywords' => 'image qr code, photo qr, picture qr generator'
+        ),
+        array(
+            'slug' => 'paypal-to-qr',
+            'title' => 'PayPal QR Code Generator',
+            'template' => 'page-templates/template-qr-generator.php',
+            'meta_description' => 'Generate PayPal payment QR codes for easy transactions. Perfect for businesses and freelancers.',
+            'meta_keywords' => 'paypal qr code, payment qr, paypal link generator'
+        ),
+        array(
+            'slug' => 'zoom-to-qr',
+            'title' => 'Zoom Meeting QR Code Generator',
+            'template' => 'page-templates/template-qr-generator.php',
+            'meta_description' => 'Create QR codes for Zoom meetings. Let participants join with a single scan.',
+            'meta_keywords' => 'zoom qr code, meeting qr, zoom link generator'
+        ),
+        array(
+            'slug' => 'scanner',
+            'title' => 'QR Code Scanner',
+            'template' => 'page-templates/template-scanner.php',
+            'meta_description' => 'Free online QR code scanner. Scan any QR code using your camera or upload an image.',
+            'meta_keywords' => 'qr code scanner, scan qr, qr reader online'
+        ),
+        array(
+            'slug' => 'download',
+            'title' => 'Download QR Code',
+            'template' => 'page-templates/template-download.php',
+            'meta_description' => 'Download your generated QR codes in multiple formats. High quality PNG, SVG and PDF exports.',
+            'meta_keywords' => 'download qr code, qr code png, qr code svg'
+        ),
+        array(
+            'slug' => 'faq',
+            'title' => 'Frequently Asked Questions',
+            'template' => 'page-templates/template-faq.php',
+            'meta_description' => 'Common questions about QR codes, how to create them, customize them, and use them for your business.',
+            'meta_keywords' => 'qr code faq, qr code questions, how to create qr code'
+        ),
+        array(
+            'slug' => 'privacy',
+            'title' => 'Privacy Policy',
+            'template' => 'page-templates/template-privacy.php',
+            'meta_description' => 'Our privacy policy explains how we handle your data when using our QR code generator service.',
+            'meta_keywords' => 'privacy policy, data protection'
+        ),
+        array(
+            'slug' => 'support',
+            'title' => 'Support',
+            'template' => 'page-templates/template-support.php',
+            'meta_description' => 'Get help with our QR code generator. Contact support for any questions or issues.',
+            'meta_keywords' => 'qr code support, help, contact'
+        ),
+    );
+    
+    $pages_created = 0;
+    
+    foreach ($pages_to_create as $page_data) {
+        $existing_page = get_posts(array(
+            'name'        => $page_data['slug'],
+            'post_type'   => 'page',
+            'post_status' => array('publish', 'draft', 'trash', 'pending', 'private'),
+            'numberposts' => 1,
+        ));
+        
+        if (empty($existing_page)) {
+            $page_id = wp_insert_post(array(
+                'post_title'   => $page_data['title'],
+                'post_name'    => $page_data['slug'],
+                'post_status'  => 'publish',
+                'post_type'    => 'page',
+                'post_content' => '',
+            ));
+            
+            if ($page_id && !is_wp_error($page_id)) {
+                update_post_meta($page_id, '_wp_page_template', $page_data['template']);
+                update_post_meta($page_id, '_myqrcodetool_meta_description', $page_data['meta_description']);
+                update_post_meta($page_id, '_myqrcodetool_meta_keywords', $page_data['meta_keywords']);
+                $pages_created++;
+            }
+        }
+    }
+    
+    if ($pages_created > 0) {
+        update_option('myqrcodetool_pages_created', $pages_created);
+    }
+    
+    flush_rewrite_rules();
+}
+add_action('after_switch_theme', 'myqrcodetool_create_pages_on_activation');
+
+/**
+ * Output page-specific SEO meta tags (only for pages with custom meta)
+ */
+function myqrcodetool_page_seo_meta() {
+    if (!is_page() || is_front_page()) {
+        return;
+    }
+    
+    global $post;
+    
+    $description = get_post_meta($post->ID, '_myqrcodetool_meta_description', true);
+    $keywords = get_post_meta($post->ID, '_myqrcodetool_meta_keywords', true);
+    
+    if (!$description && !$keywords) {
+        return;
+    }
+    
+    if ($description) {
+        echo '<meta name="description" content="' . esc_attr($description) . '" />' . "\n";
+    }
+    
+    if ($keywords) {
+        echo '<meta name="keywords" content="' . esc_attr($keywords) . '" />' . "\n";
+    }
+    
+    echo '<link rel="canonical" href="' . esc_url(get_permalink()) . '" />' . "\n";
+    echo '<meta name="robots" content="index, follow" />' . "\n";
+}
+add_action('wp_head', 'myqrcodetool_page_seo_meta', 1);
+
+/**
+ * Add admin notice after theme activation
+ */
+function myqrcodetool_admin_notice() {
+    $pages_created = get_option('myqrcodetool_pages_created');
+    if ($pages_created) {
+        ?>
+        <div class="notice notice-success is-dismissible">
+            <p><strong>My QRcode Tool Theme:</strong> <?php echo intval($pages_created); ?> QR generator pages have been created automatically! Your multi-page website is ready for Google indexing.</p>
+        </div>
+        <?php
+        delete_option('myqrcodetool_pages_created');
+    }
+}
+add_action('admin_notices', 'myqrcodetool_admin_notice');
