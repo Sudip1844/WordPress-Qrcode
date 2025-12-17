@@ -15,17 +15,17 @@ This theme converts a static QR Code Generator website to WordPress.
 
 @import url('assets/css/main.css');
 
-/* Footer Background Override */
+/* Footer Background Override - Light Mode */
 footer,
 [class*="footer"],
 .bg-card.border-t,
 .bg-gray-900,
 .bg-slate-900 {
-    background-color: #000000 !important;
+    background-color: #0f172a !important;
     color: #ffffff !important;
 }
 
-/* Footer text color for better contrast on black */
+/* Footer text color for better contrast */
 footer a,
 footer p,
 footer h3,
@@ -44,65 +44,146 @@ footer span,
 }
 
 /* ========================================
-   DARK THEME SUPPORT
+   DARK THEME SUPPORT - ENHANCED
    ======================================== */
 
 /* CSS Variables for Light Theme (Default) */
 :root {
     --bg-primary: #ffffff;
     --bg-secondary: #f8fafc;
+    --bg-tertiary: #f1f5f9;
     --bg-card: #ffffff;
+    --bg-card-hover: #f8fafc;
     --bg-input: #ffffff;
+    --bg-hero: linear-gradient(135deg, #ffffff 0%, #f0f9ff 50%, #e0f2fe 100%);
     --text-primary: #1e293b;
     --text-secondary: #64748b;
     --text-muted: #94a3b8;
     --border-color: #e2e8f0;
+    --border-light: #f1f5f9;
     --shadow-color: rgba(0, 0, 0, 0.1);
     --emerald-primary: #10b981;
     --emerald-hover: #059669;
     --emerald-light: #d1fae5;
     --emerald-dark: #065f46;
+    --accent-purple: #8b5cf6;
+    --accent-blue: #3b82f6;
+    --accent-indigo: #6366f1;
+    --accent-cyan: #22d3ee;
 }
 
-/* Dark Theme Variables */
+/* Dark Theme Variables - Enhanced Color Palette */
 [data-theme="dark"] {
-    --bg-primary: #0f172a;
-    --bg-secondary: #1e293b;
-    --bg-card: #1e293b;
-    --bg-input: #334155;
-    --text-primary: #f1f5f9;
+    --bg-primary: #0b1120;
+    --bg-secondary: #131c31;
+    --bg-tertiary: #1a2744;
+    --bg-card: #1e2d4a;
+    --bg-card-hover: #243654;
+    --bg-input: #1e2d4a;
+    --bg-hero: linear-gradient(135deg, #0b1120 0%, #131c31 50%, #1a2744 100%);
+    --text-primary: #f8fafc;
     --text-secondary: #cbd5e1;
     --text-muted: #94a3b8;
-    --border-color: #334155;
-    --shadow-color: rgba(0, 0, 0, 0.4);
+    --border-color: #2d4163;
+    --border-light: #1e2d4a;
+    --shadow-color: rgba(0, 0, 0, 0.5);
     --emerald-primary: #34d399;
     --emerald-hover: #10b981;
     --emerald-light: #065f46;
     --emerald-dark: #d1fae5;
+    --accent-purple: #a78bfa;
+    --accent-blue: #60a5fa;
+    --accent-indigo: #818cf8;
+    --accent-cyan: #22d3ee;
 }
 
-/* Apply Dark Theme Styles */
+/* Apply Dark Theme Base Styles */
 [data-theme="dark"] body,
 [data-theme="dark"] #root {
+    background: var(--bg-hero) !important;
     background-color: var(--bg-primary) !important;
     color: var(--text-primary) !important;
 }
 
+[data-theme="dark"] html {
+    background-color: var(--bg-primary) !important;
+}
+
+/* ========================================
+   DARK THEME - HERO SECTION
+   ======================================== */
+
+[data-theme="dark"] .dynamic-header-bg,
+[data-theme="dark"] [class*="bg-gradient-to-br"],
+[data-theme="dark"] [class*="bg-gradient-to-b"],
+[data-theme="dark"] [class*="bg-gradient-to-r"],
+[data-theme="dark"] [class*="from-white"],
+[data-theme="dark"] [class*="from-slate-50"],
+[data-theme="dark"] [class*="to-blue-50"],
+[data-theme="dark"] [class*="to-emerald-50"] {
+    background: linear-gradient(135deg, #0b1120 0%, #131c31 40%, #1a2744 70%, #1e3a5f 100%) !important;
+}
+
+[data-theme="dark"] [class*="from-emerald"][class*="to-teal"],
+[data-theme="dark"] [class*="from-blue"][class*="to-purple"] {
+    background: linear-gradient(135deg, #065f46 0%, #134e4a 50%, #1e3a5f 100%) !important;
+}
+
+/* ========================================
+   DARK THEME - CONTAINERS & CARDS
+   ======================================== */
+
 [data-theme="dark"] .bg-white,
 [data-theme="dark"] .bg-slate-50,
 [data-theme="dark"] .bg-gray-50,
-[data-theme="dark"] .bg-background {
-    background-color: var(--bg-secondary) !important;
+[data-theme="dark"] .bg-background,
+[data-theme="dark"] [class*="bg-white\\/"],
+[data-theme="dark"] .bg-white\/80,
+[data-theme="dark"] .bg-white\/90,
+[data-theme="dark"] .bg-white\/95 {
+    background-color: var(--bg-card) !important;
+}
+
+[data-theme="dark"] .bg-slate-100,
+[data-theme="dark"] .bg-gray-100,
+[data-theme="dark"] .bg-blue-50,
+[data-theme="dark"] .bg-purple-50,
+[data-theme="dark"] .bg-emerald-50,
+[data-theme="dark"] .bg-indigo-50,
+[data-theme="dark"] .bg-cyan-50,
+[data-theme="dark"] .bg-teal-50 {
+    background-color: var(--bg-tertiary) !important;
 }
 
 [data-theme="dark"] .bg-card,
 [data-theme="dark"] .bg-muted,
 [data-theme="dark"] [class*="rounded-lg"][class*="border"],
 [data-theme="dark"] [class*="rounded-xl"][class*="border"],
+[data-theme="dark"] [class*="rounded-2xl"][class*="border"],
+[data-theme="dark"] [class*="rounded-3xl"][class*="border"],
 [data-theme="dark"] .card {
     background-color: var(--bg-card) !important;
     border-color: var(--border-color) !important;
 }
+
+/* Card hover states */
+[data-theme="dark"] .bg-card:hover,
+[data-theme="dark"] .card:hover {
+    background-color: var(--bg-card-hover) !important;
+}
+
+/* ========================================
+   DARK THEME - SPECIAL SECTIONS
+   ======================================== */
+
+/* QR Generator Section */
+[data-theme="dark"] .qr-generator-section {
+    background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%) !important;
+}
+
+/* ========================================
+   DARK THEME - TEXT COLORS
+   ======================================== */
 
 [data-theme="dark"] .text-slate-800,
 [data-theme="dark"] .text-slate-900,
@@ -110,33 +191,87 @@ footer span,
 [data-theme="dark"] .text-gray-900,
 [data-theme="dark"] .text-foreground,
 [data-theme="dark"] h1, [data-theme="dark"] h2, 
-[data-theme="dark"] h3, [data-theme="dark"] h4 {
+[data-theme="dark"] h3, [data-theme="dark"] h4,
+[data-theme="dark"] h5, [data-theme="dark"] h6 {
     color: var(--text-primary) !important;
 }
 
 [data-theme="dark"] .text-slate-600,
 [data-theme="dark"] .text-slate-500,
+[data-theme="dark"] .text-slate-700,
 [data-theme="dark"] .text-gray-600,
 [data-theme="dark"] .text-gray-500,
+[data-theme="dark"] .text-gray-700,
 [data-theme="dark"] .text-muted-foreground,
-[data-theme="dark"] p {
+[data-theme="dark"] p,
+[data-theme="dark"] span:not(.dynamic-neon-title):not([class*="text-emerald"]):not([class*="text-green"]):not([class*="text-blue"]):not([class*="text-purple"]) {
     color: var(--text-secondary) !important;
 }
 
+/* Keep accent colors visible */
+[data-theme="dark"] .text-emerald-500,
+[data-theme="dark"] .text-emerald-600,
+[data-theme="dark"] .text-green-500,
+[data-theme="dark"] .text-green-600 {
+    color: var(--emerald-primary) !important;
+}
+
+[data-theme="dark"] .text-blue-500,
+[data-theme="dark"] .text-blue-600 {
+    color: var(--accent-blue) !important;
+}
+
+[data-theme="dark"] .text-purple-500,
+[data-theme="dark"] .text-purple-600,
+[data-theme="dark"] .text-indigo-500,
+[data-theme="dark"] .text-indigo-600 {
+    color: var(--accent-purple) !important;
+}
+
+/* ========================================
+   DARK THEME - BORDERS
+   ======================================== */
+
 [data-theme="dark"] .border,
 [data-theme="dark"] .border-slate-200,
+[data-theme="dark"] .border-slate-100,
 [data-theme="dark"] .border-gray-200,
-[data-theme="dark"] .border-border {
+[data-theme="dark"] .border-gray-100,
+[data-theme="dark"] .border-blue-200,
+[data-theme="dark"] .border-blue-100,
+[data-theme="dark"] .border-border,
+[data-theme="dark"] .border-t,
+[data-theme="dark"] .border-b,
+[data-theme="dark"] .border-l,
+[data-theme="dark"] .border-r {
     border-color: var(--border-color) !important;
 }
+
+[data-theme="dark"] .border-emerald-200,
+[data-theme="dark"] .border-emerald-300,
+[data-theme="dark"] .border-green-200 {
+    border-color: #065f46 !important;
+}
+
+/* ========================================
+   DARK THEME - FORM INPUTS
+   ======================================== */
 
 [data-theme="dark"] input,
 [data-theme="dark"] textarea,
 [data-theme="dark"] select,
-[data-theme="dark"] .input {
+[data-theme="dark"] .input,
+[data-theme="dark"] [class*="input"] {
     background-color: var(--bg-input) !important;
     border-color: var(--border-color) !important;
     color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] input:focus,
+[data-theme="dark"] textarea:focus,
+[data-theme="dark"] select:focus {
+    border-color: var(--accent-indigo) !important;
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3) !important;
 }
 
 [data-theme="dark"] input::placeholder,
@@ -144,23 +279,111 @@ footer span,
     color: var(--text-muted) !important;
 }
 
-/* Dark Theme Header */
+/* ========================================
+   DARK THEME - BUTTONS
+   ======================================== */
+
+[data-theme="dark"] .bg-emerald-500,
+[data-theme="dark"] .bg-emerald-600,
+[data-theme="dark"] .bg-green-500,
+[data-theme="dark"] .bg-green-600 {
+    background-color: var(--emerald-primary) !important;
+    color: #0b1120 !important;
+}
+
+[data-theme="dark"] [class*="bg-emerald"]:hover,
+[data-theme="dark"] [class*="bg-green"]:hover {
+    background-color: var(--emerald-hover) !important;
+}
+
+/* Outline buttons */
+[data-theme="dark"] .border-emerald-500,
+[data-theme="dark"] .border-emerald-600 {
+    border-color: var(--emerald-primary) !important;
+}
+
+/* ========================================
+   DARK THEME - HEADER & NAVIGATION
+   ======================================== */
+
 [data-theme="dark"] header,
 [data-theme="dark"] nav,
-[data-theme="dark"] .sticky.top-0 {
-    background-color: var(--bg-primary) !important;
+[data-theme="dark"] .sticky.top-0,
+[data-theme="dark"] .dynamic-header-bg {
+    background-color: rgba(11, 17, 32, 0.95) !important;
+    backdrop-filter: blur(12px) !important;
     border-color: var(--border-color) !important;
 }
 
-/* Dark Theme Shadows */
+/* ========================================
+   DARK THEME - FOOTER
+   ======================================== */
+
+[data-theme="dark"] footer,
+[data-theme="dark"] [class*="footer"],
+[data-theme="dark"] .bg-card.border-t {
+    background: linear-gradient(180deg, #0b1120 0%, #060912 100%) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* ========================================
+   DARK THEME - SHADOWS & EFFECTS
+   ======================================== */
+
 [data-theme="dark"] .shadow,
 [data-theme="dark"] .shadow-sm,
 [data-theme="dark"] .shadow-md,
-[data-theme="dark"] .shadow-lg {
-    box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -2px var(--shadow-color) !important;
+[data-theme="dark"] .shadow-lg,
+[data-theme="dark"] .shadow-xl {
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4), 
+                0 2px 8px -2px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(45, 65, 99, 0.3) !important;
 }
 
-/* Smooth Transition for Theme Change */
+/* Glow effects for accents */
+[data-theme="dark"] .ring-emerald-500,
+[data-theme="dark"] .ring-emerald-400 {
+    --tw-ring-color: rgba(52, 211, 153, 0.4) !important;
+}
+
+/* ========================================
+   DARK THEME - SPECIAL ELEMENTS
+   ======================================== */
+
+/* QR Code preview area */
+[data-theme="dark"] [class*="qr-preview"],
+[data-theme="dark"] [class*="qr-code"],
+[data-theme="dark"] canvas {
+    background-color: #ffffff !important;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+/* Tabs and navigation pills */
+[data-theme="dark"] [role="tablist"],
+[data-theme="dark"] [class*="tabs"] {
+    background-color: var(--bg-tertiary) !important;
+    border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] [role="tab"][aria-selected="true"],
+[data-theme="dark"] [class*="tab"][class*="active"] {
+    background-color: var(--accent-indigo) !important;
+    color: white !important;
+}
+
+/* Dropdown menus */
+[data-theme="dark"] [role="menu"],
+[data-theme="dark"] [class*="dropdown"],
+[data-theme="dark"] [class*="popover"] {
+    background-color: var(--bg-card) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* ========================================
+   SMOOTH TRANSITIONS
+   ======================================== */
+
 body,
 #root,
 header,
@@ -170,8 +393,12 @@ nav,
 .text-slate-800,
 .border,
 input,
-textarea {
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+textarea,
+footer,
+div,
+section,
+article {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* ========================================
