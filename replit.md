@@ -57,6 +57,23 @@ The project runs a **PHP-based preview** that renders the WordPress theme templa
 
 ## Recent Changes
 
+- **2025-12-17**: Enhanced Dark Theme with Aurora Effects
+  - **TOGGLE VISIBILITY FIX**:
+    - Toggle button now stays visible in header area
+    - Hides only when large content sections (>=300px) overlap
+    - Smart detection filters out small UI elements like buttons/badges
+  - **ICON COLOR PRESERVATION**:
+    - How to Use section icons stay same color in both themes
+    - Share button maintains consistent emerald color
+    - QR icons in header/footer preserve original gradient colors
+  - **AURORA HEADER ANIMATION**:
+    - Added subtle aurora gradient animation to header in dark mode
+    - Colors: indigo, purple, emerald, and blue blend
+    - Animated glowing border at header bottom
+  - **DARK THEME COLOR PALETTE**:
+    - Changed from pure black to dark blue shades (#0b1120, #131c31)
+    - Improved color combinations with purple/blue/white accents
+
 - **2025-12-17**: Dark Theme Support Added
   - **DARK THEME TOGGLE**:
     - Added sun/moon toggle button (fixed position, next to menu button)
