@@ -24,6 +24,8 @@
     // Theme Toggle Functionality - Simple and Reliable
     (function() {
         var toggleBtn = document.getElementById('theme-toggle');
+        var toggleContainer = document.getElementById('theme-toggle-fixed');
+        
         if (toggleBtn) {
             toggleBtn.addEventListener('click', function() {
                 var currentTheme = document.documentElement.getAttribute('data-theme');
@@ -38,6 +40,57 @@
                 localStorage.setItem('theme', newTheme);
             });
         }
+        
+        // Scroll detection to hide/show toggle when overlapping with main content
+        function checkToggleVisibility() {
+            if (!toggleContainer) return;
+            
+            var toggleRect = toggleContainer.getBoundingClientRect();
+            var toggleCenterX = toggleRect.left + toggleRect.width / 2;
+            var toggleCenterY = toggleRect.top + toggleRect.height / 2;
+            
+            // Find elements that might overlap with the toggle
+            var mainContent = document.querySelector('.qr-generator-section, [class*="generator"], main, #root > div:first-child > div:nth-child(2)');
+            var header = document.querySelector('header, nav, .sticky.top-0');
+            
+            // Check if header is in sticky mode and toggle is within header area
+            var headerRect = header ? header.getBoundingClientRect() : null;
+            var isInHeaderArea = headerRect && toggleRect.top >= headerRect.top && toggleRect.bottom <= headerRect.bottom + 10;
+            
+            // Check if main content is overlapping with toggle position
+            var elementsAtPoint = document.elementsFromPoint(toggleCenterX, toggleCenterY);
+            var isOverlapping = false;
+            
+            elementsAtPoint.forEach(function(el) {
+                // Skip the toggle itself and its children
+                if (el === toggleContainer || el === toggleBtn || toggleContainer.contains(el)) return;
+                // Skip header elements
+                if (header && header.contains(el)) return;
+                // Check if it's a main content element with significant z-index or stacking
+                var style = window.getComputedStyle(el);
+                var zIndex = parseInt(style.zIndex) || 0;
+                var position = style.position;
+                
+                // If we find a non-static element with content, consider it overlapping
+                if ((position === 'fixed' || position === 'sticky' || position === 'absolute') && zIndex > 0 && zIndex < 9999) {
+                    isOverlapping = true;
+                }
+            });
+            
+            // Show/hide based on overlap
+            if (isOverlapping && !isInHeaderArea) {
+                toggleContainer.classList.add('is-hidden');
+            } else {
+                toggleContainer.classList.remove('is-hidden');
+            }
+        }
+        
+        // Run on scroll and resize
+        window.addEventListener('scroll', checkToggleVisibility, { passive: true });
+        window.addEventListener('resize', checkToggleVisibility, { passive: true });
+        
+        // Initial check
+        setTimeout(checkToggleVisibility, 500);
     })();
     </script>
     

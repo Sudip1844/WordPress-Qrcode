@@ -185,13 +185,14 @@ textarea {
     width: 44px;
     height: 44px;
     border-radius: 12px;
-    border: 2px solid transparent;
+    border: 2px solid #10b981;
     background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
     margin-right: 8px;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
 }
 
 .theme-toggle-btn:hover {
@@ -234,7 +235,8 @@ textarea {
 /* Dark Mode - Show Moon, Hide Sun */
 [data-theme="dark"] .theme-toggle-btn {
     background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-    border-color: #475569;
+    border-color: #10b981;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
 }
 
 [data-theme="dark"] .theme-toggle-btn:hover {
@@ -279,4 +281,19 @@ textarea {
     .theme-toggle-fixed {
         right: 100px;
     }
+}
+
+/* Theme Toggle Hidden/Disabled State */
+.theme-toggle-fixed.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.theme-toggle-fixed:not(.is-hidden) {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
