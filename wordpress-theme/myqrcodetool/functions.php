@@ -800,3 +800,83 @@ function myqrcodetool_extended_customizer($wp_customize) {
     ));
 }
 add_action('customize_register', 'myqrcodetool_extended_customizer', 20);
+
+/**
+ * Add admin menu to manually create pages
+ */
+function myqrcodetool_admin_menu() {
+    add_submenu_page(
+        'themes.php',
+        __('Create QR Pages', 'myqrcodetool'),
+        __('Create QR Pages', 'myqrcodetool'),
+        'manage_options',
+        'myqrcodetool-create-pages',
+        'myqrcodetool_create_pages_admin'
+    );
+}
+add_action('admin_menu', 'myqrcodetool_admin_menu');
+
+/**
+ * Admin page to manually trigger page creation
+ */
+function myqrcodetool_create_pages_admin() {
+    if (isset($_POST['myqrcodetool_create_pages']) && check_admin_referer('myqrcodetool_create_pages_nonce')) {
+        myqrcodetool_create_pages_on_activation();
+        $pages_created = get_option('myqrcodetool_pages_created', 0);
+        echo '<div class="notice notice-success"><p><strong>' . intval($pages_created) . ' pages created successfully!</strong></p></div>';
+        delete_option('myqrcodetool_pages_created');
+    }
+    
+    $existing_pages = get_posts(array(
+        'post_type' => 'page',
+        'post_status' => 'publish',
+        'numberposts' => -1,
+        'meta_query' => array(
+            array(
+                'key' => '_wp_page_template',
+                'value' => 'page-templates/template-qr-generator.php',
+                'compare' => '='
+            )
+        )
+    ));
+    
+    $qr_pages_count = count($existing_pages);
+    ?>
+    <div class="wrap">
+        <h1><?php _e('My QRcode Tool - Create Pages', 'myqrcodetool'); ?></h1>
+        
+        <div class="card" style="max-width: 600px; padding: 20px;">
+            <h2><?php _e('Automatic Page Creation', 'myqrcodetool'); ?></h2>
+            <p><?php _e('Click the button below to automatically create all QR generator pages with proper SEO settings, templates, and canonical URLs.', 'myqrcodetool'); ?></p>
+            
+            <p><strong><?php _e('Current Status:', 'myqrcodetool'); ?></strong> 
+                <?php if ($qr_pages_count > 0): ?>
+                    <span style="color: green;"><?php echo $qr_pages_count; ?> QR pages already exist</span>
+                <?php else: ?>
+                    <span style="color: orange;"><?php _e('No QR pages created yet', 'myqrcodetool'); ?></span>
+                <?php endif; ?>
+            </p>
+            
+            <p><?php _e('Pages to be created:', 'myqrcodetool'); ?></p>
+            <ul style="list-style: disc; margin-left: 20px;">
+                <li>13 QR Generator pages (URL, Text, WiFi, WhatsApp, Email, Phone, SMS, Contact, vCard, Event, Image, PayPal, Zoom)</li>
+                <li>Scanner page</li>
+                <li>Download page</li>
+                <li>FAQ page</li>
+                <li>Privacy Policy page</li>
+                <li>Support page</li>
+            </ul>
+            
+            <form method="post">
+                <?php wp_nonce_field('myqrcodetool_create_pages_nonce'); ?>
+                <p>
+                    <input type="submit" name="myqrcodetool_create_pages" class="button button-primary button-hero" value="<?php _e('Create All Pages Now', 'myqrcodetool'); ?>" />
+                </p>
+            </form>
+            
+            <p class="description"><?php _e('Note: Existing pages with the same slug will not be overwritten.', 'myqrcodetool'); ?></p>
+        </div>
+    </div>
+    <?php
+}
+
