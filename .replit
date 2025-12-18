@@ -24,7 +24,7 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "php -S 0.0.0.0:5000 -t myqrcodetool"
+args = "php -S 0.0.0.0:5000 -t wordpress"
 waitForPort = 5000
 
 [workflows.workflow.metadata]
