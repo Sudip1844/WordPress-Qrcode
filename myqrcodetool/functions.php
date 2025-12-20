@@ -339,6 +339,35 @@ function myqrcodetool_customizer($wp_customize) {
 add_action('customize_register', 'myqrcodetool_customizer');
 
 /**
+ * Register rewrite rule for dynamic sitemap
+ */
+function myqrcodetool_add_rewrite_rules() {
+    add_rewrite_rule('^sitemap\.xml$', 'index.php?sitemap=1', 'top');
+    add_rewrite_tag('%sitemap%', '([^&]+)');
+}
+add_action('init', 'myqrcodetool_add_rewrite_rules');
+
+/**
+ * Handle sitemap request
+ */
+function myqrcodetool_handle_sitemap() {
+    if (get_query_var('sitemap') == 1) {
+        include(get_template_directory() . '/sitemap.php');
+        exit;
+    }
+}
+add_action('template_redirect', 'myqrcodetool_handle_sitemap');
+
+/**
+ * Flush rewrite rules on theme activation
+ */
+function myqrcodetool_flush_rewrites() {
+    myqrcodetool_add_rewrite_rules();
+    flush_rewrite_rules();
+}
+add_action('after_switch_theme', 'myqrcodetool_flush_rewrites');
+
+/**
  * Helper function to get page-specific SEO data
  */
 function myqrcodetool_get_page_seo($page_slug) {
@@ -646,6 +675,15 @@ function myqrcodetool_page_seo_meta() {
     // Block search pages from being indexed
     if (is_search()) {
         echo '<meta name="robots" content="noindex, follow" />' . "\n";
+        echo '<meta name="description" content="Search results for your query. Use our QR code generator to create custom QR codes for any purpose." />' . "\n";
+        return;
+    }
+    
+    // Homepage - set full description
+    if (is_front_page()) {
+        echo '<meta name="robots" content="index, follow" />' . "\n";
+        echo '<meta name="description" content="Free QR Code Generator - Create professional QR codes for URLs, Text, WiFi, WhatsApp, Email, Phone, SMS, Contact, vCard, Events, Images, PayPal, and Zoom meetings instantly and easily." />' . "\n";
+        echo '<meta name="keywords" content="qr code generator, free qr code, create qr code online, url to qr, text to qr, qr code maker" />' . "\n";
         return;
     }
     
@@ -656,6 +694,12 @@ function myqrcodetool_page_seo_meta() {
         
         if ($description) {
             echo '<meta name="description" content="' . esc_attr($description) . '" />' . "\n";
+        } else {
+            // Fallback description if custom meta not set
+            $page_excerpt = get_the_excerpt();
+            if ($page_excerpt) {
+                echo '<meta name="description" content="' . esc_attr(wp_strip_all_tags($page_excerpt)) . '" />' . "\n";
+            }
         }
         
         if ($keywords) {
@@ -663,11 +707,6 @@ function myqrcodetool_page_seo_meta() {
         }
         
         // Always set index, follow for regular pages - remove any noindex
-        echo '<meta name="robots" content="index, follow" />' . "\n";
-    }
-    
-    // Homepage
-    if (is_front_page()) {
         echo '<meta name="robots" content="index, follow" />' . "\n";
     }
 }

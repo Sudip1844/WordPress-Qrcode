@@ -8,6 +8,10 @@
 get_header();
 ?>
 
+<!-- 404 Page SEO Meta Tags -->
+<meta name="robots" content="noindex, follow" />
+<meta name="description" content="The page you are looking for could not be found. Please visit the homepage to access our QR code generator tool." />
+
 <main id="primary" class="site-main">
     <section class="error-404 not-found" style="text-align: center; padding: 4rem 1rem;">
         <header class="page-header">
