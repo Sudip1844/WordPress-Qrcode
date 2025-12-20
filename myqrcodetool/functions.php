@@ -636,29 +636,40 @@ add_action('after_switch_theme', 'myqrcodetool_create_pages_on_activation');
  * Output page-specific SEO meta tags (only for pages with custom meta)
  */
 function myqrcodetool_page_seo_meta() {
-    if (!is_page() || is_front_page()) {
-        return;
-    }
-    
     global $post;
     
-    $description = get_post_meta($post->ID, '_myqrcodetool_meta_description', true);
-    $keywords = get_post_meta($post->ID, '_myqrcodetool_meta_keywords', true);
+    // Ensure canonical tag is always present
+    if (is_singular()) {
+        echo '<link rel="canonical" href="' . esc_url(get_permalink()) . '" />' . "\n";
+    }
     
-    if (!$description && !$keywords) {
+    // Block search pages from being indexed
+    if (is_search()) {
+        echo '<meta name="robots" content="noindex, follow" />' . "\n";
         return;
     }
     
-    if ($description) {
-        echo '<meta name="description" content="' . esc_attr($description) . '" />' . "\n";
+    // Ensure important pages are indexed
+    if (is_page() && !is_front_page()) {
+        $description = get_post_meta($post->ID, '_myqrcodetool_meta_description', true);
+        $keywords = get_post_meta($post->ID, '_myqrcodetool_meta_keywords', true);
+        
+        if ($description) {
+            echo '<meta name="description" content="' . esc_attr($description) . '" />' . "\n";
+        }
+        
+        if ($keywords) {
+            echo '<meta name="keywords" content="' . esc_attr($keywords) . '" />' . "\n";
+        }
+        
+        // Always set index, follow for regular pages - remove any noindex
+        echo '<meta name="robots" content="index, follow" />' . "\n";
     }
     
-    if ($keywords) {
-        echo '<meta name="keywords" content="' . esc_attr($keywords) . '" />' . "\n";
+    // Homepage
+    if (is_front_page()) {
+        echo '<meta name="robots" content="index, follow" />' . "\n";
     }
-    
-    echo '<link rel="canonical" href="' . esc_url(get_permalink()) . '" />' . "\n";
-    echo '<meta name="robots" content="index, follow" />' . "\n";
 }
 add_action('wp_head', 'myqrcodetool_page_seo_meta', 1);
 

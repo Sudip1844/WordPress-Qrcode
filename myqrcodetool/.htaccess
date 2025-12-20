@@ -1,0 +1,13 @@
+# Block search pages from being crawled
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Block search parameter pages from being indexed
+    RewriteCond %{QUERY_STRING} ^s=
+    RewriteRule ^(.*)$ - [L]
+</IfModule>
+
+# Cache control to prevent issues
+<IfModule mod_headers.c>
+    Header set Cache-Control "public, max-age=3600"
+</IfModule>
