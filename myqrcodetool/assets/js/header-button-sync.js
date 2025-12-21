@@ -1,112 +1,110 @@
 /**
- * Perfect Sync: Dark Theme Button with Header Visibility
- * Continuously mirrors header's display/visibility/opacity to button
+ * Aggressive Header-Button Sync
+ * Hides button completely when header is hidden
+ * Prevents user interaction when header not visible
  */
 (function() {
     'use strict';
 
-    let lastHeaderState = null;
-    let isMonitoring = false;
+    let lastHeaderVisible = true;
+    let scrollThreshold = 50;
 
-    const getHeaderComputedState = (header) => {
-        if (!header) return null;
+    const isHeaderHidden = (header) => {
+        if (!header) return true;
         const style = window.getComputedStyle(header);
-        return JSON.stringify({
-            display: style.display,
-            visibility: style.visibility,
-            opacity: style.opacity,
-            height: style.height
-        });
+        const isHidden = style.display === 'none' || 
+                        style.visibility === 'hidden' || 
+                        style.opacity === '0' ||
+                        parseInt(style.height) === 0;
+        return isHidden;
     };
 
-    const applyHeaderStateToButton = (header, button) => {
+    const hideButton = (button) => {
+        if (!button) return;
+        button.style.cssText = `
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        `;
+    };
+
+    const showButton = (button) => {
+        if (!button) return;
+        button.style.cssText = `
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            pointer-events: auto !important;
+        `;
+    };
+
+    const syncButtonVisibility = () => {
+        const header = document.querySelector('header');
+        const button = document.querySelector('[class*="theme-toggle"], button[title*="theme"], button[aria-label*="theme"], [class*="dark-toggle"]');
+
         if (!header || !button) return;
 
-        const headerStyle = window.getComputedStyle(header);
-        const headerDisplay = headerStyle.display;
-        const headerVisibility = headerStyle.visibility;
-        const headerOpacity = headerStyle.opacity;
+        const headerHidden = isHeaderHidden(header);
 
-        // Apply exact same visibility to button
-        if (headerDisplay === 'none') {
-            button.style.display = 'none !important';
-            button.style.visibility = 'hidden !important';
-            button.style.opacity = '0 !important';
-        } else if (headerVisibility === 'hidden') {
-            button.style.display = 'none !important';
-            button.style.visibility = 'hidden !important';
-            button.style.opacity = '0 !important';
-        } else if (headerOpacity === '0') {
-            button.style.display = 'none !important';
-            button.style.visibility = 'hidden !important';
-            button.style.opacity = '0 !important';
+        // Also hide if scrolled too far
+        const scrolledDown = window.scrollY > scrollThreshold;
+
+        if (headerHidden || scrolledDown) {
+            if (lastHeaderVisible) {
+                hideButton(button);
+                lastHeaderVisible = false;
+            }
         } else {
-            button.style.display = '' !important;
-            button.style.visibility = 'visible' !important;
-            button.style.opacity = '1' !important;
+            if (!lastHeaderVisible) {
+                showButton(button);
+                lastHeaderVisible = true;
+            }
         }
     };
 
-    const startMonitoring = (header, button) => {
-        if (isMonitoring) return;
-        isMonitoring = true;
+    const initialize = () => {
+        const header = document.querySelector('header');
+        const button = document.querySelector('[class*="theme-toggle"], button[title*="theme"], button[aria-label*="theme"], [class*="dark-toggle"]');
 
-        // Continuous polling for header state changes
-        setInterval(() => {
-            const currentState = getHeaderComputedState(header);
-            if (currentState !== lastHeaderState) {
-                lastHeaderState = currentState;
-                applyHeaderStateToButton(header, button);
-            }
-        }, 100); // Check every 100ms
+        if (!header || !button) {
+            setTimeout(initialize, 300);
+            return;
+        }
 
-        // Also listen to scroll
-        window.addEventListener('scroll', () => {
-            applyHeaderStateToButton(header, button);
-        }, { passive: true });
+        // Initial sync
+        syncButtonVisibility();
 
-        // Listen to window resize
-        window.addEventListener('resize', () => {
-            applyHeaderStateToButton(header, button);
-        }, { passive: true });
+        // Scroll listener - AGGRESSIVE
+        window.addEventListener('scroll', syncButtonVisibility, { passive: true, capture: true });
 
-        // MutationObserver for any header attribute changes
-        const observer = new MutationObserver(() => {
-            applyHeaderStateToButton(header, button);
+        // Resize listener
+        window.addEventListener('resize', syncButtonVisibility, { passive: true });
+
+        // Header mutation observer
+        const headerObserver = new MutationObserver(() => {
+            syncButtonVisibility();
         });
 
-        observer.observe(header, {
+        headerObserver.observe(header, {
             attributes: true,
-            attributeOldValue: true,
+            style: true,
             attributeFilter: ['style', 'class'],
             subtree: false
         });
 
-        // Initial sync
-        applyHeaderStateToButton(header, button);
+        // Continuous check (fallback)
+        setInterval(syncButtonVisibility, 50);
     };
 
-    const findAndSyncButton = () => {
-        const header = document.querySelector('header');
-        const themeButton = document.querySelector('[class*="theme-toggle"], button[title*="theme"], button[aria-label*="theme"], [class*="dark-toggle"]');
-
-        if (!header || !themeButton) {
-            // Try again in 200ms if elements not found
-            setTimeout(findAndSyncButton, 200);
-            return;
-        }
-
-        startMonitoring(header, themeButton);
-    };
-
-    // Start when DOM is ready
+    // Start initialization
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', findAndSyncButton);
+        document.addEventListener('DOMContentLoaded', initialize);
     } else {
-        findAndSyncButton();
+        initialize();
     }
 
-    // Also try after delays
-    setTimeout(findAndSyncButton, 300);
-    setTimeout(findAndSyncButton, 1000);
+    // Retry initialization
+    setTimeout(initialize, 500);
+    setTimeout(initialize, 1500);
 })();

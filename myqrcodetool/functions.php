@@ -213,6 +213,13 @@ function myqrcodetool_scripts() {
         MYQRCODETOOL_VERSION
     );
     
+    wp_enqueue_style(
+        'myqrcodetool-button-sync',
+        MYQRCODETOOL_URI . '/assets/css/button-sync.css',
+        array(),
+        MYQRCODETOOL_VERSION
+    );
+    
     wp_enqueue_script(
         'myqrcodetool-vendor',
         MYQRCODETOOL_URI . '/assets/js/vendor-CMjGaeKf.js',
