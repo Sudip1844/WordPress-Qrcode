@@ -46,6 +46,116 @@ function myqrcodetool_setup() {
 add_action('after_setup_theme', 'myqrcodetool_setup');
 
 /**
+ * Automatically create pages on theme activation
+ */
+function myqrcodetool_create_pages_on_activation() {
+    require_once MYQRCODETOOL_DIR . '/inc/seo-data.php';
+    
+    $pages = myqrcodetool_get_all_qr_pages();
+    
+    // Map pages to their templates
+    $page_templates = array(
+        'url-to-qr' => 'page-templates/template-qr-generator.php',
+        'text-to-qr' => 'page-templates/template-qr-generator.php',
+        'wifi-to-qr' => 'page-templates/template-qr-generator.php',
+        'whatsapp-to-qr' => 'page-templates/template-qr-generator.php',
+        'email-to-qr' => 'page-templates/template-qr-generator.php',
+        'phone-to-qr' => 'page-templates/template-qr-generator.php',
+        'sms-to-qr' => 'page-templates/template-qr-generator.php',
+        'contact-to-qr' => 'page-templates/template-qr-generator.php',
+        'v-card-to-qr' => 'page-templates/template-qr-generator.php',
+        'event-to-qr' => 'page-templates/template-qr-generator.php',
+        'image-to-qr' => 'page-templates/template-qr-generator.php',
+        'paypal-to-qr' => 'page-templates/template-qr-generator.php',
+        'zoom-to-qr' => 'page-templates/template-qr-generator.php',
+        'scanner' => 'page-templates/template-scanner.php',
+        'download' => 'page-templates/template-download.php',
+        'faq' => 'page-templates/template-faq.php',
+        'privacy' => 'page-templates/template-privacy.php',
+        'support' => 'page-templates/template-support.php',
+    );
+    
+    // Create each page
+    foreach ($page_templates as $slug => $template) {
+        // Check if page already exists
+        $existing = get_page_by_path($slug);
+        if ($existing) {
+            continue;
+        }
+        
+        $page_title = '';
+        if (isset($pages[$slug]['title'])) {
+            $page_title = $pages[$slug]['title'];
+        }
+        
+        // Create the page
+        $page_data = array(
+            'post_title'    => $page_title,
+            'post_name'     => $slug,
+            'post_content'  => '',
+            'post_type'     => 'page',
+            'post_status'   => 'publish',
+            'comment_status' => 'closed',
+            'ping_status'   => 'closed',
+        );
+        
+        $page_id = wp_insert_post($page_data);
+        
+        if ($page_id) {
+            // Assign page template
+            update_post_meta($page_id, '_wp_page_template', $template);
+        }
+    }
+}
+
+// Hook for theme activation
+add_action('after_switch_theme', 'myqrcodetool_create_pages_on_activation');
+
+/**
+ * Add admin menu to manually create pages
+ */
+function myqrcodetool_add_admin_menu() {
+    add_theme_page(
+        'Create QR Pages',
+        'Create QR Pages',
+        'manage_options',
+        'myqrcodetool_create_pages',
+        'myqrcodetool_create_pages_admin_page'
+    );
+}
+add_action('admin_menu', 'myqrcodetool_add_admin_menu');
+
+/**
+ * Admin page to create pages manually
+ */
+function myqrcodetool_create_pages_admin_page() {
+    if (!current_user_can('manage_options')) {
+        wp_die('Unauthorized');
+    }
+    
+    echo '<div class="wrap">';
+    echo '<h1>Create QR Code Pages</h1>';
+    echo '<p>Click the button below to create all QR code pages automatically.</p>';
+    echo '<form method="post">';
+    wp_nonce_field('myqrcodetool_create_pages_nonce');
+    echo '<button type="submit" name="myqrcodetool_create_pages_submit" class="button button-primary">Create All Pages</button>';
+    echo '</form>';
+    echo '</div>';
+}
+
+/**
+ * Handle page creation form submission
+ */
+function myqrcodetool_handle_page_creation() {
+    if (isset($_POST['myqrcodetool_create_pages_submit'])) {
+        check_admin_referer('myqrcodetool_create_pages_nonce');
+        myqrcodetool_create_pages_on_activation();
+        wp_die('<h2>Pages Created Successfully!</h2><p><a href="' . admin_url('edit.php?post_type=page') . '">View All Pages</a></p>');
+    }
+}
+add_action('admin_init', 'myqrcodetool_handle_page_creation');
+
+/**
  * Enqueue Scripts and Styles - Optimized for per-page loading
  */
 function myqrcodetool_scripts() {
@@ -364,6 +474,3 @@ function myqrcodetool_get_page_seo($page_slug) {
         'keywords' => ''
     );
 }
-            'keywords' => 'vcard qr code, vcf qr generator, digital business card, professional contact qr'
-        ),
-        'event-to-qr' => array(
