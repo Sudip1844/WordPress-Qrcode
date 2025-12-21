@@ -188,6 +188,31 @@ function myqrcodetool_get_all_qr_pages() {
                 'Works on all devices with Zoom installed'
             ),
             'use_cases' => 'Great for conference rooms, event schedules, training sessions, webinar promotions, and remote team meetings.'
+        ),
+        'scanner' => array(
+            'title' => 'QR Code Scanner - Fast & Secure',
+            'description' => 'Download our fast and secure QR code scanner app. Works with any QR code and generates instant results.',
+            'keywords' => 'qr code scanner, qr reader, barcode scanner app'
+        ),
+        'download' => array(
+            'title' => 'Download QR Code Scanner App - Free',
+            'description' => 'Download our free QR code scanner app for Android and iOS. Fast, secure, and easy to use.',
+            'keywords' => 'qr scanner app download, qr reader app, barcode scanner'
+        ),
+        'faq' => array(
+            'title' => 'Frequently Asked Questions - QR Code Generator',
+            'description' => 'Find answers to common questions about QR codes, how to generate them, scan them, and best practices.',
+            'keywords' => 'qr code faq, qr code questions, how to use qr code'
+        ),
+        'privacy' => array(
+            'title' => 'Privacy Policy - MyQrcodeTool',
+            'description' => 'Read our privacy policy to understand how we protect your data and handle information.',
+            'keywords' => 'privacy policy, data protection'
+        ),
+        'support' => array(
+            'title' => 'Support & Contact Us - QR Code Generator',
+            'description' => 'Contact us for support, feedback, or questions about our QR code generator service.',
+            'keywords' => 'support, contact, help, customer service'
         )
     );
 }
