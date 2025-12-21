@@ -1,81 +1,44 @@
 /**
- * Synchronize Dark Theme Button with Header Visibility
- * Ensures button hide/show is perfectly timed with header
+ * Move Dark Theme Button Inside Header
+ * Ensures button stays with header always - menu & title style
  */
 (function() {
     'use strict';
 
-    const syncHeaderButtonVisibility = () => {
-        // Get header and button elements
+    const moveButtonToHeader = () => {
         const header = document.querySelector('header');
         const themeButton = document.querySelector('[class*="theme-toggle"], button[title*="theme"], button[aria-label*="theme"], [class*="dark-toggle"]');
 
         if (!header || !themeButton) {
-            // Try again in 500ms if elements not found yet
-            setTimeout(syncHeaderButtonVisibility, 500);
+            // Try again in 300ms if elements not found yet
+            setTimeout(moveButtonToHeader, 300);
             return;
         }
 
-        // Get computed styles to check visibility
-        const getHeaderVisible = () => {
-            const style = window.getComputedStyle(header);
-            return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0';
-        };
+        // Check if button is already inside header
+        if (header.contains(themeButton)) {
+            return; // Already inside, nothing to do
+        }
 
-        const getButtonVisible = () => {
-            const style = window.getComputedStyle(themeButton);
-            return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0';
-        };
-
-        // Sync visibility on scroll and window events
-        const synchronizeVisibility = () => {
-            const headerVisible = getHeaderVisible();
-            const buttonVisible = getButtonVisible();
-
-            if (headerVisible !== buttonVisible) {
-                if (headerVisible) {
-                    // Show button with header
-                    themeButton.style.display = '';
-                    themeButton.style.visibility = '';
-                    themeButton.style.opacity = '';
-                } else {
-                    // Hide button with header
-                    themeButton.style.display = 'none';
-                    themeButton.style.visibility = 'hidden';
-                    themeButton.style.opacity = '0';
-                }
-            }
-        };
-
-        // Listen to scroll events (header typically hides on scroll)
-        window.addEventListener('scroll', synchronizeVisibility, { passive: true });
-
-        // Listen to resize events
-        window.addEventListener('resize', synchronizeVisibility, { passive: true });
-
-        // Initial sync
-        synchronizeVisibility();
-
-        // Also sync on any DOM mutations in header
-        const observer = new MutationObserver(() => {
-            synchronizeVisibility();
-        });
-
-        observer.observe(header, {
-            attributes: true,
-            attributeFilter: ['style', 'class'],
-            subtree: false
-        });
+        // Move button inside header
+        header.appendChild(themeButton);
+        
+        // Ensure button doesn't have conflicting positioning
+        themeButton.style.position = 'relative';
+        themeButton.style.display = 'block';
+        themeButton.style.visibility = 'visible';
+        themeButton.style.opacity = '1';
     };
 
-    // Start syncing when DOM is ready
+    // Start when DOM is ready
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', syncHeaderButtonVisibility);
+        document.addEventListener('DOMContentLoaded', moveButtonToHeader);
     } else {
-        syncHeaderButtonVisibility();
+        moveButtonToHeader();
     }
 
-    // Also run after a short delay to catch dynamically rendered elements
-    setTimeout(syncHeaderButtonVisibility, 1000);
-    setTimeout(syncHeaderButtonVisibility, 2000);
+    // Also run after delays to catch dynamically rendered elements
+    setTimeout(moveButtonToHeader, 500);
+    setTimeout(moveButtonToHeader, 1000);
+    setTimeout(moveButtonToHeader, 2000);
 })();
